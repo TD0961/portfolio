@@ -1,11 +1,12 @@
-import React from 'react'
+import Navbar from "./components/Navbar"
+import Hero from "./sections/Hero"
+
 function App() {
   return (
-    <>
-      <div>   
-        <h1>Hello World</h1>
-      </div>
-    </>
+    <div>
+      <Navbar />
+      <Hero />
+    </div>
   )
 }
 
