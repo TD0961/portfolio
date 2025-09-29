@@ -1,28 +1,75 @@
+import { motion } from "framer-motion";
+import { Mail, Linkedin, Phone, Send } from "lucide-react";
+
 const Contact = () => {
+  const contacts = [
+    {
+      name: "Email",
+      icon: <Mail className="w-7 h-7 text-blue-500" />,
+      link: "mailto:tensaedeme61@gmail.com",
+    },
+    {
+      name: "LinkedIn",
+      icon: <Linkedin className="w-7 h-7 text-blue-500" />,
+      link: "https://www.linkedin.com/in/tensae-deme-a18359315/",
+    },
+    {
+      name: "Telegram",
+      icon: <Send className="w-7 h-7 text-blue-500" />,
+      link: "https://t.me/Myhopeisu61",
+    },
+    {
+      name: "Phone",
+      icon: <Phone className="w-7 h-7 text-blue-500" />,
+      link: "tel:+25161189659",
+    },
+  ];
+
   return (
     <section
       id="contact"
-      className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 text-center px-6"
+      className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-16 relative overflow-hidden"
     >
-      <h2 className="text-3xl font-bold mb-4">Contact Me</h2>
-      <p className="text-gray-600 dark:text-gray-400 mb-6">
-        Feel free to reach out for collaborations or just a friendly hello 👋
-      </p>
+      {/* Title */}
+      <motion.h2
+        initial={{ y: -50, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-4xl font-bold mb-6"
+      >
+        <span className="text-blue-500">Get in Touch</span>
+      </motion.h2>
 
-      <div className="space-x-4">
-        <a
-          href="mailto:your@email.com"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-        >
-          Email Me
-        </a>
-        <a
-          href="https://linkedin.com"
-          target="_blank"
-          className="px-4 py-2 bg-gray-800 text-white rounded-lg shadow hover:bg-gray-900 transition"
-        >
-          LinkedIn
-        </a>
+      {/* Subtitle */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-gray-300 mb-10 max-w-xl text-center"
+      >
+        I’ll help you in your next project. Contact me through the details below!
+      </motion.p>
+
+      {/* Contact Links */}
+      <div className="flex flex-col md:flex-row md:space-x-10 gap-6 text-lg font-medium">
+        {contacts.map((contact, index) => (
+          <motion.a
+            key={index}
+            href={contact.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-3 hover:text-blue-400 transition"
+          >
+            {contact.icon}
+            {contact.name}
+          </motion.a>
+        ))}
       </div>
     </section>
   );
