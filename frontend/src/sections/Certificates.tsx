@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const certificates = [
   { image: "/certificates/aws.png", title: "AWS Certified Solutions Architect" },
@@ -12,78 +11,94 @@ const certificates = [
 
 const Certificates = () => {
   const [index, setIndex] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(2);
+  const total = certificates.length;
 
-  const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % certificates.length);
-  };
+  const nextSlide = () => setIndex((prev) => (prev + 1) % total);
+  const prevSlide = () => setIndex((prev) => (prev - 1 + total) % total);
 
-  const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
-  };
-
-  // Auto-slide every 2s
+  // Responsive: 1 card mobile, 2 desktop
   useEffect(() => {
-    const interval = setInterval(nextSlide, 10000);
-    return () => clearInterval(interval);
+    const handleResize = () => {
+      setCardsPerView(window.innerWidth < 768 ? 1 : 2);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Show 3 certificates at once
-  const visibleCertificates = [
-    certificates[index],
-    certificates[(index + 1) % certificates.length],
-  ];
+  const visibleCertificates = Array.from({ length: cardsPerView }, (_, i) => {
+    return certificates[(index + i) % total];
+  });
 
   return (
     <section
       id="certificates"
       className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-16 relative overflow-hidden"
     >
-      {/* Title */}
+      {/* Animated Heading */}
       <motion.h2
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="text-4xl font-bold mb-10"
+        initial={{ opacity: 0, x: -60 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: false }}
+        className="text-4xl font-bold mb-12 text-blue-500"
       >
-        <span className="text-blue-500">Certificates</span>
+        Certificates
       </motion.h2>
 
-      {/* Carousel */}
-      <div className="flex space-x-6 w-full max-w-6xl justify-center items-stretch">
-        <AnimatePresence>
-          {visibleCertificates.map((cert, ) => (
-            <motion.div
-              key={cert.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.8 }}
-              className="flex-1 bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/20"
-            >
-              <img
-                src={cert.image}
-                alt={cert.title}
-                className="w-full h-60 object-contain p-4"
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      {/* Cards */}
+      <div
+        className={`grid grid-cols-1 md:grid-cols-${cardsPerView} gap-6 w-full max-w-5xl`}
+      >
+        {visibleCertificates.map((cert, i) => (
+          <motion.div
+            key={cert.title + i}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: i * 0.1 }}
+            viewport={{ once: false }}
+            className="aspect-square bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/20 flex items-center justify-center"
+          >
+            <img
+              src={cert.image}
+              alt={cert.title}
+              className="w-4/5 h-4/5 object-contain"
+            />
+          </motion.div>
+        ))}
       </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md rounded-full p-3 hover:bg-white/20 transition"
-      >
-        <ChevronLeft className="w-6 h-6 text-white" />
-      </button>
+      {/* Centered Arrows */}
+      <div className="flex flex-col items-center mt-6">
+        <div className="flex items-center justify-center gap-4">
+          <button
+            onClick={prevSlide}
+            className="text-2xl font-thin px-4 py-1 hover:scale-110 transition"
+          >
+            ◀
+          </button>
 
-      <button
-        onClick={nextSlide}
-        className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md rounded-full p-3 hover:bg-white/20 transition"
-      >
-        <ChevronRight className="w-6 h-6 text-white" />
-      </button>
+          {/* Dots */}
+          <div className="flex gap-2">
+            {certificates.map((_, i) => (
+              <span
+                key={i}
+                className={`w-3 h-3 rounded-full bg-white/50 ${
+                  (index % total) === i ? "scale-125 bg-white" : ""
+                } transition-all`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={nextSlide}
+            className="text-2xl font-thin px-4 py-1 hover:scale-110 transition"
+          >
+            ▶
+          </button>
+        </div>
+      </div>
     </section>
   );
 };

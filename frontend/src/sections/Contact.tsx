@@ -35,7 +35,7 @@ const Contact = () => {
         initial={{ y: -50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         className="text-4xl font-bold mb-6"
       >
         <span className="text-blue-500">Get in Touch</span>
@@ -46,7 +46,7 @@ const Contact = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         className="text-gray-300 mb-10 max-w-xl text-center"
       >
         I’ll help you in your next project. Contact me through the details below!
@@ -63,7 +63,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             className="flex items-center gap-3 hover:text-blue-400 transition"
           >
             {contact.icon}

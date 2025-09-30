@@ -1,162 +1,197 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination } from "swiper/modules";
+import "swiper/swiper-bundle.css";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 
-const projects = [
+interface Project {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  link: string;
+}
+
+const projects: Project[] = [
   {
     title: "Portfolio Website",
-    description: "A modern portfolio built with React, Tailwind CSS, and Vite.",
-    tech: ["React", "TailwindCSS", "Vite"],
+    description: "Portfolio built with React, TailwindCSS, and Vite.",
     image: "/projects/portfolio.png",
-    demo: "https://your-portfolio-link.com",
+    tags: ["TailwindCSS", "Vite"],
+    link: "#",
   },
   {
     title: "DevOps Pipeline",
     description: "CI/CD pipeline using GitHub Actions, Docker, and Kubernetes.",
-    tech: ["GitHub Actions", "Docker", "Kubernetes"],
     image: "/projects/devops.png",
-    demo: "https://your-devops-link.com",
+    tags: ["GitHub Actions", "Docker", "Kubernetes"],
+    link: "#",
   },
   {
     title: "E-commerce App",
     description: "Full-stack app with Next.js, Django, and PostgreSQL.",
-    tech: ["Next.js", "Django", "PostgreSQL"],
     image: "/projects/ecommerce.png",
-    demo: "https://your-ecommerce-link.com",
+    tags: ["Next.js", "Django", "PostgreSQL"],
+    link: "#",
   },
   {
     title: "Chat Application",
     description: "Realtime chat app with Socket.io and MongoDB.",
-    tech: ["Node.js", "Socket.io", "MongoDB"],
     image: "/projects/chat.png",
-    demo: "https://your-chat-link.com",
+    tags: ["Node.js", "Socket.io", "MongoDB"],
+    link: "#",
   },
   {
     title: "Monitoring Dashboard",
     description: "Grafana + Prometheus setup with Docker and Kubernetes.",
-    tech: ["Grafana", "Prometheus", "Kubernetes"],
     image: "/projects/monitor.png",
-    demo: "https://your-dashboard-link.com",
+    tags: ["Grafana", "Prometheus", "Kubernetes"],
+    link: "#",
   },
 ];
 
 const Projects = () => {
-  const [index, setIndex] = useState(0);
-
-  const nextProject = () => {
-    setIndex((prev) => (prev + 1) % projects.length);
-  };
-
-  const prevProject = () => {
-    setIndex((prev) => (prev - 1 + projects.length) % projects.length);
-  };
-
-  // Auto-slide every 2s
-  useEffect(() => {
-    const interval = setInterval(nextProject, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Show 3 projects at once
-  const visibleProjects = [
-    projects[index],
-    projects[(index + 1) % projects.length],
-  ];
+  const swiperRef = useRef<any>(null);
 
   return (
     <section
       id="projects"
-      className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-16 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center px-4 md:px-12 py-16 bg-gray-900 text-white"
     >
-      {/* Title */}
+      {/* Animated Heading */}
       <motion.h2
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="text-4xl font-bold mb-10"
+        className="text-4xl font-bold mb-12 text-blue-500"
+        initial={{ opacity: 0, x: -60 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: false }}
       >
-        <span className="text-blue-500">Projects</span>
+        Projects
       </motion.h2>
 
-      {/* Carousel */}
-      <div className="flex space-x-6 w-full max-w-6xl justify-center items-stretch">
-        <AnimatePresence>
-          {visibleProjects.map((project, ) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.8 }}
-              className="flex-1 bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/20 flex flex-col"
-            >
-              {/* Image */}
-              <div className="w-full h-40 bg-gray-800">
+      <div className="w-full max-w-6xl relative">
+        <Swiper
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          effect="coverflow"
+          grabCursor
+          centeredSlides
+          loop
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          coverflowEffect={{
+            rotate: 20,
+            stretch: 0,
+            depth: 200,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={{ clickable: true, el: ".custom-pagination" }}
+          modules={[EffectCoverflow, Pagination]}
+          className="w-full pb-20"
+        >
+          {projects.map((project, index) => (
+            <SwiperSlide key={index}>
+              <motion.div
+                className="bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition flex flex-col items-center text-center"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: false }}
+              >
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-40 object-cover rounded-lg mb-4"
                 />
-              </div>
 
-              {/* Content */}
-              <div className="p-5 flex flex-col flex-grow">
+                {/* Animated Title */}
                 <motion.h3
-                  initial={{ x: -50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8 }}
-                  className="text-lg font-bold mb-2"
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: false }}
+                  className="text-xl font-semibold mb-2"
                 >
                   {project.title}
                 </motion.h3>
 
-                <p className="text-gray-300 text-sm mb-3 flex-grow">
+                {/* Animated Description */}
+                <motion.p
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  viewport={{ once: false }}
+                  className="text-gray-300 text-sm mb-4"
+                >
                   {project.description}
-                </p>
+                </motion.p>
 
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((t, idx) => (
+                {/* Animated Tags */}
+                <motion.div
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: false }}
+                  className="flex flex-wrap justify-center gap-2 mb-4"
+                >
+                  {project.tags.map((tag, i) => (
                     <span
-                      key={idx}
-                      className="px-2 py-1 text-xs rounded-lg bg-blue-600/40"
+                      key={i}
+                      className="px-3 py-1 bg-gray-700 text-sm rounded-full"
                     >
-                      {t}
+                      {tag}
                     </span>
                   ))}
-                </div>
+                </motion.div>
 
-                {/* Live Demo Button */}
-                <div className="flex justify-center mt-auto">
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1 rounded-lg border border-blue-500 text-blue-400 hover:bg-blue-500/20 text-sm transition"
-                  >
-                    Live Demo
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition"
+                >
+                  Live Demo
+                </a>
+              </motion.div>
+            </SwiperSlide>
           ))}
-        </AnimatePresence>
+        </Swiper>
+
+        {/* Centered Controls with Arrows and Dots */}
+        <div className="flex flex-col items-center mt-6">
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="text-xl font-thin px-4 py-1"
+            >
+              ◀
+            </button>
+
+            <div className="custom-pagination flex items-center gap-2"></div>
+
+            <button
+              onClick={() => swiperRef.current?.slideNext()}
+              className="text-xl font-thin px-4 py-1"
+            >
+              ▶
+            </button>
+          </div>
+        </div>
+
+        {/* Bullet Styling - only size, default color */}
+        <style>
+          {`
+            .custom-pagination .swiper-pagination-bullet {
+              width: 12px;
+              height: 12px;
+            }
+          `}
+        </style>
       </div>
-
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevProject}
-        className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md rounded-full p-3 hover:bg-white/20 transition"
-      >
-        <ChevronLeft className="w-6 h-6 text-white" />
-      </button>
-
-      <button
-        onClick={nextProject}
-        className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md rounded-full p-3 hover:bg-white/20 transition"
-      >
-        <ChevronRight className="w-6 h-6 text-white" />
-      </button>
     </section>
   );
 };

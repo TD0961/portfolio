@@ -14,13 +14,14 @@ function App() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1">
+      <main className="flex-1 w-full ">
         <Hero />
         <About />
         <Skills />
         <Projects />
         <Certificates />
         <Contact />
+
       </main>
 
       {/* Mobile bottom nav */}
