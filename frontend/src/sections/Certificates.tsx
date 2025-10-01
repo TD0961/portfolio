@@ -1,103 +1,156 @@
-import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination } from "swiper/modules";
+import "swiper/swiper-bundle.css";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
-const certificates = [
-  { image: "/certificates/aws.png", title: "AWS Certified Solutions Architect" },
-  { image: "/certificates/azure.png", title: "Azure Fundamentals" },
-  { image: "/certificates/devops.png", title: "DevOps Essentials" },
-  { image: "/certificates/docker.png", title: "Docker & Kubernetes" },
-  { image: "/certificates/react.png", title: "React Developer" },
+interface Certificate {
+  title: string;
+  issuer?: string;
+  image: string;
+  link?: string;
+}
+
+const certificates: Certificate[] = [
+  { image: "/certificates/aws.png", title: "AWS Certified Solutions Architect", issuer: "Amazon", link: "#" },
+  { image: "/certificates/azure.png", title: "Azure Fundamentals", issuer: "Microsoft", link: "#" },
+  { image: "/certificates/devops.png", title: "DevOps Essentials", issuer: "DevOps Institute", link: "#" },
+  { image: "/certificates/docker.png", title: "Docker & Kubernetes", issuer: "Docker", link: "#" },
+  { image: "/certificates/react.png", title: "React Developer", issuer: "Frontend Academy", link: "#" },
 ];
 
 const Certificates = () => {
-  const [index, setIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(2);
-  const total = certificates.length;
-
-  const nextSlide = () => setIndex((prev) => (prev + 1) % total);
-  const prevSlide = () => setIndex((prev) => (prev - 1 + total) % total);
-
-  // Responsive: 1 card mobile, 2 desktop
-  useEffect(() => {
-    const handleResize = () => {
-      setCardsPerView(window.innerWidth < 768 ? 1 : 2);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const visibleCertificates = Array.from({ length: cardsPerView }, (_, i) => {
-    return certificates[(index + i) % total];
-  });
+  const swiperRef = useRef<any>(null);
 
   return (
     <section
       id="certificates"
-      className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-16 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center px-4 md:px-12 py-16 bg-gray-900 text-white"
     >
       {/* Animated Heading */}
       <motion.h2
+        className="text-4xl font-bold mb-12 text-blue-500"
         initial={{ opacity: 0, x: -60 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: false }}
-        className="text-4xl font-bold mb-12 text-blue-500"
       >
         Certificates
       </motion.h2>
 
-      {/* Cards */}
-      <div
-        className={`grid grid-cols-1 md:grid-cols-${cardsPerView} gap-6 w-full max-w-5xl`}
-      >
-        {visibleCertificates.map((cert, i) => (
-          <motion.div
-            key={cert.title + i}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: i * 0.1 }}
-            viewport={{ once: false }}
-            className="aspect-square bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/20 flex items-center justify-center"
-          >
-            <img
-              src={cert.image}
-              alt={cert.title}
-              className="w-4/5 h-4/5 object-contain"
-            />
-          </motion.div>
-        ))}
-      </div>
+      <div className="w-full max-w-6xl relative">
+        <Swiper
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          effect="coverflow"
+          grabCursor
+          centeredSlides
+          loop
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          coverflowEffect={{
+            rotate: 20,
+            stretch: 0,
+            depth: 200,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={{ clickable: true, el: ".certs-pagination" }}
+          modules={[EffectCoverflow, Pagination]}
+          className="w-full pb-20"
+        >
+          {certificates.map((cert, index) => (
+            <SwiperSlide key={index}>
+              <motion.div
+                className="bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition flex flex-col items-center text-center"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: false }}
+              >
+                <img
+                  src={cert.image}
+                  alt={cert.title}
+                  className="w-full h-40 object-cover rounded-lg mb-4"
+                />
 
-      {/* Centered Arrows */}
-      <div className="flex flex-col items-center mt-6">
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={prevSlide}
-            className="text-2xl font-thin px-4 py-1 hover:scale-110 transition"
-          >
-            ◀
-          </button>
+                {/* Animated Title */}
+                <motion.h3
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: false }}
+                  className="text-xl font-semibold mb-2"
+                >
+                  {cert.title}
+                </motion.h3>
 
-          {/* Dots */}
-          <div className="flex gap-2">
-            {certificates.map((_, i) => (
-              <span
-                key={i}
-                className={`w-3 h-3 rounded-full bg-white/50 ${
-                  (index % total) === i ? "scale-125 bg-white" : ""
-                } transition-all`}
-              />
-            ))}
+                {/* Animated Issuer */}
+                {cert.issuer && (
+                  <motion.p
+                    initial={{ opacity: 0, x: -60 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.3 }}
+                    viewport={{ once: false }}
+                    className="text-gray-300 text-sm mb-4"
+                  >
+                    {cert.issuer}
+                  </motion.p>
+                )}
+
+                <a
+                  href={cert.link ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition"
+                >
+                  View Certificate
+                </a>
+              </motion.div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Centered Controls with Arrows and Dots */}
+        <div className="flex flex-col items-center mt-6">
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="text-2xl px-4 py-1 text-blue-500 hover:text-blue-400 transition"
+              aria-label="Previous certificate"
+            >
+              ◀
+            </button>
+
+            <div className="certs-pagination flex items-center gap-2" />
+
+            <button
+              onClick={() => swiperRef.current?.slideNext()}
+              className="text-2xl px-4 py-1 text-blue-500 hover:text-blue-400 transition"
+              aria-label="Next certificate"
+            >
+              ▶
+            </button>
           </div>
-
-          <button
-            onClick={nextSlide}
-            className="text-2xl font-thin px-4 py-1 hover:scale-110 transition"
-          >
-            ▶
-          </button>
         </div>
+
+        {/* Bullet Styling */}
+        <style>
+          {`
+            .certs-pagination .swiper-pagination-bullet {
+              width: 12px;
+              height: 12px;
+            }
+
+            /* ensure pagination bullets and controls do not overlap cards on small screens */
+            @media (max-width: 640px) {
+              .certs-pagination { margin: 0 6px; }
+            }
+          `}
+        </style>
       </div>
     </section>
   );

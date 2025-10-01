@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const skills = ["DevOps Engineer", "Web Developer", "Mobile Developer", "Cloud Enthusiast"];
+const skills = ["DevOps Engineer", "Web Developer", "Mobile App Developer", "Cloud Enthusiast"];
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
