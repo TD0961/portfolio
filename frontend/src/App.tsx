@@ -14,7 +14,7 @@ function App() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 w-full ">
+      <main className="flex-1 md:ml-64 w-full ">
         <Hero />
         <About />
         <Skills />

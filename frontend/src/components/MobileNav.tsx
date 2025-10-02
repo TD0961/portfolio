@@ -11,7 +11,7 @@ const MobileNav = () => {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black text-white flex justify-around items-center py-2 border-t border-gray-800 shadow-lg z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black w-full text-white flex justify-around items-center py-2 border-t border-gray-800 shadow-lg z-50">
       {links.map((link) => (
         <a
           key={link.id}

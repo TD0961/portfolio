@@ -11,21 +11,24 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col justify-between w-72 bg-gradient-to-b from-gray-900 to-black text-white p-6 shadow-2xl sticky top-0 h-screen">
+    <aside className="hidden md:flex fixed top-0 left-0 h-screen w-64 bg-gray-800 text-white flex-col justify-between shadow-lg z-50">
+      {/* Top Section */}
       <div>
         {/* Profile */}
-        <div className="flex flex-col items-center mb-10">
+        <div className="flex flex-col items-center mb-10 mt-6">
           <img
             src="/photo/black-shemiz.jpg"
             alt="Profile"
             className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4"
           />
           <h1 className="text-xl font-bold">Tensae Deme</h1>
-          <p className="text-gray-400 text-sm">Full-stack dev & DevOps Engineer</p>
+          <p className="text-gray-400 text-sm">
+            Full-stack dev & DevOps Engineer
+          </p>
         </div>
 
         {/* Navigation */}
-        <nav className="space-y-4">
+        <nav className="space-y-2 px-4">
           {links.map((link) => (
             <a
               key={link.id}
@@ -39,9 +42,9 @@ const Sidebar = () => {
         </nav>
       </div>
 
-      {/* Footer */}
-      <div className="text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} Tensae Deme
+      {/* Bottom Section (Footer) */}
+      <div className="p-4 text-center text-gray-500 text-xs border-t border-gray-700">
+        © {new Date().getFullYear()} Tensae Deme. All rights reserved.
       </div>
     </aside>
   );
