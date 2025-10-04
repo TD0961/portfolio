@@ -166,7 +166,7 @@ const Projects = () => {
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={() => swiperRef.current?.slidePrev()}
-              className="text-xl font-thin px-4 py-1"
+              className="text-xl font-thin px-4 py-1 text-blue-500 hover:text-blue-400 transition"
             >
               ◀
             </button>
@@ -175,7 +175,7 @@ const Projects = () => {
 
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className="text-xl font-thin px-4 py-1"
+              className="text-xl font-thin px-4 py-1 text-blue-500 hover:text-blue-400 transition"
             >
               ▶
             </button>

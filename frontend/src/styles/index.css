@@ -1,9 +1,29 @@
 @import "tailwindcss";
 
+/* --- Global resets & scaling --- */
 html {
+  font-size: 16px;            /* Stable base for rem scaling */
   scroll-behavior: smooth;
+  overflow-x: hidden;         /* Prevents horizontal scroll globally */
 }
 
-html,body {
-  overflow-x: hidden;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #111827;  /* Tailwind's bg-gray-900 equivalent */
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;         /* Keeps mobile issue solved */
+}
+
+/* --- Optional fix for high-DPI Windows displays (scaling) --- */
+@media (min-resolution: 120dpi) and (max-resolution: 150dpi) {
+  html {
+    font-size: 15px; /* slightly reduces overall scaling to match Ubuntu */
+  }
+}
+@media (min-resolution: 151dpi) {
+  html {
+    font-size: 14px; /* further reduces scaling for very high-DPI screens */
+  }
 }
