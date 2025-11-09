@@ -36,7 +36,7 @@ const Hero = () => {
       {/* Mobile background */}
       <div
         className="absolute inset-0 bg-cover bg-center md:hidden"
-        style={{ backgroundImage: "url('/photo/phono.JPG')" }}
+        style={{ backgroundImage: "url('/photo/phono.jpg')" }}
       />
 
       {/* Desktop background */}
