@@ -84,7 +84,7 @@ const About = () => {
           }`}
         >
           <img
-            src="/photo/sit-black.jpeg"
+            src="/photo/sit-black.jpg"
             alt="About Me"
             className="w-80 h-96 object-cover rounded-2xl shadow-2xl transform hover:rotate-3 hover:scale-105 transition-all duration-500"
           />
