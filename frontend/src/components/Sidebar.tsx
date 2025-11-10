@@ -23,7 +23,7 @@ const Sidebar = () => {
           />
           <h1 className="text-xl font-bold">Tensae Deme</h1>
           <p className="text-gray-400 text-sm">
-            Full-stack dev & DevOps Engineer
+            Full-stack dev & DevOps Enthusiast
           </p>
         </div>
 

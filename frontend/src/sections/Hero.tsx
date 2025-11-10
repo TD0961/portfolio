@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const skills = ["DevOps Engineer", "Web Developer", "Mobile App Developer", "Cloud Enthusiast"];
+const skills = ["DevOps Enthusiast", "Web Developer", "Mobile App Developer", "Cloud Enthusiast"];
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -36,13 +36,13 @@ const Hero = () => {
       {/* Mobile background */}
       <div
         className="absolute inset-0 bg-cover bg-center md:hidden"
-        style={{ backgroundImage: "url('/photo/phono.jpg')" }}
+        style={{ backgroundImage: "url('/photo/phono.webp')" }}
       />
 
       {/* Desktop background */}
       <div
         className="absolute inset-0 bg-cover bg-center hidden md:block"
-        style={{ backgroundImage: "url('/photo/piassa.jpeg')" }}
+        style={{ backgroundImage: "url('/photo/piassa.webp')" }}
       />
 
       {/* Overlay */}
