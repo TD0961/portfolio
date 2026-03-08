@@ -1,4 +1,3 @@
-"use client";
 import { motion } from "framer-motion";
 import {
   FaReact,
@@ -17,6 +16,7 @@ import {
   SiLaravel,
   SiFastapi,
   SiNestjs,
+  SiGraphql,
   SiPostgresql,
   SiMysql,
   SiMongodb,
@@ -55,7 +55,7 @@ const categories = [
       { name: "Laravel", icon: <SiLaravel className="text-red-500 w-8 h-8" /> },
       { name: "FastAPI", icon: <SiFastapi className="text-teal-400 w-8 h-8" /> },
       { name: "Nest.js", icon: <SiNestjs className="text-red-600 w-8 h-8" /> },
-      { name: "TypeScript", icon: <SiTypescript className="text-blue-500 w-8 h-8" /> },
+      { name: "GraphQL", icon: <SiGraphql className="text-pink-500 w-8 h-8" /> },
     ],
   },
   {
@@ -90,7 +90,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="min-h-screen flex flex-col items-center justify-center px-6 md:px-16 py-20 bg-gray-900 text-white"
+      className="min-h-screen flex flex-col items-center justify-center px-6 md:px-16 py-20 text-white"
     >
       {/* Title */}
       <motion.h2

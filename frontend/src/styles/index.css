@@ -10,7 +10,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #111827;  /* Tailwind's bg-gray-900 equivalent */
+  background-color: transparent;
   color: white;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;         /* Keeps mobile issue solved */

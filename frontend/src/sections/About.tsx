@@ -20,26 +20,24 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="min-h-screen flex items-center justify-center px-6 md:px-16 py-20 bg-gray-900 text-white"
+      className="min-h-screen flex items-center justify-center px-6 md:px-16 py-20 text-white"
     >
       <div className="flex flex-col md:flex-row items-center justify-center gap-12 max-w-6xl w-full">
         {/* Left content */}
         <div className="flex-1 text-center md:text-left space-y-6">
           <h2
-            className={`text-4xl font-bold mb-6 text-blue-500 transition-all duration-1000 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-10"
-            }`}
+            className={`text-4xl font-bold mb-6 text-blue-500 transition-all duration-1000 ${isVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-10"
+              }`}
           >
             So, who am I?
           </h2>
           <p
-            className={`text-lg text-gray-200 leading-relaxed transition-all duration-1000 delay-150 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-10"
-            }`}
+            className={`text-lg text-gray-200 leading-relaxed transition-all duration-1000 delay-150 ${isVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-10"
+              }`}
           >
             Hi! I’m Tensae Deme. I love building{" "}
             <strong>modern web and mobile applications</strong> that people
@@ -50,12 +48,21 @@ const About = () => {
             seamless user experiences, and solving real-world problems
             efficiently.
           </p>
+          <ul
+            className={`text-gray-300 space-y-2 text-base list-none transition-all duration-1000 delay-200 ${isVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-10"
+              }`}
+          >
+            <li>⚡ Full-stack across React, Next.js, Go, Django, NestJS &amp; more</li>
+            <li>🐳 DevOps practitioner — Docker, Kubernetes, GitHub Actions, AWS</li>
+            <li>🎯 Currently focused on building scalable, production-grade systems</li>
+          </ul>
           <div
-            className={`flex justify-center md:justify-start gap-4 transition-all duration-1000 delay-300 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
+            className={`flex justify-center md:justify-start gap-4 transition-all duration-1000 delay-300 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+              }`}
           >
             <a
               href="#skills"
@@ -77,11 +84,10 @@ const About = () => {
 
         {/* Right image */}
         <div
-          className={`flex-1 flex justify-center transition-all duration-1000 delay-200 ${
-            isVisible
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 translate-x-10"
-          }`}
+          className={`flex-1 flex justify-center transition-all duration-1000 delay-200 ${isVisible
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-10"
+            }`}
         >
           <img
             src="/photo/sit-black.webp"

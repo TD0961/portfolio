@@ -1,24 +1,26 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination } from "swiper/modules";
-import "swiper/swiper-bundle.css";
+import { EffectCards } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-cards";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 
 interface Certificate {
   title: string;
   issuer?: string;
   image: string;
   link?: string;
+  hasLink?: boolean;
   description?: string;
 }
 
 const certificates: Certificate[] = [
- 
   {
     image: "/photo/azure.png",
     title: "Kubernetes Fundamentals on Azure",
     issuer: "Microsoft",
-    link: "#",
+    hasLink: false,
     description:
       "This certificate confirms the ability to deploy, manage, and scale containerized applications using Kubernetes on the Azure cloud platform. Skills demonstrated include configuring AKS clusters, managing pod lifecycles, implementing services and ingress, and utilizing Azure Container Registry for image storage.",
   },
@@ -26,207 +28,201 @@ const certificates: Certificate[] = [
     image: "/photo/ibm-ai.png",
     title: "AI Foundations for Everyone",
     issuer: "IBM",
-    link: "#",
-    description: "This certificate confirms the completion of IBM's AI Foundations program, validating understanding of artificial intelligence concepts and practical applications. Skills demonstrated include working with IBM Watson AI services, understanding machine learning fundamentals, exploring AI ethics and governance, and implementing AI solutions through hands-on projects with IBM's AI ecosystem.",
+    hasLink: false,
+    description:
+      "This certificate confirms the completion of IBM's AI Foundations program, validating understanding of artificial intelligence concepts and practical applications. Skills demonstrated include working with IBM Watson AI services, understanding machine learning fundamentals, exploring AI ethics and governance, and implementing AI solutions.",
   },
-   {
+  {
     image: "/photo/KodeKloude.png",
     title: "Docker for Absolute Beginners",
-    issuer: "KodeKloude",
+    issuer: "KodeKloud",
     link: "https://learn.kodekloud.com/user/certificate/68c7b3a3-1f90-4a55-86bc-f8bd9ad2ffa8",
+    hasLink: true,
     description:
       "This certificate confirms the successful completion of 43 hands-on lessons, validating the ability to build, ship, and run applications using Docker containers. The curriculum demonstrated skills in creating Dockerfiles, managing images, working with volumes, and deploying multi-container apps with Docker Compose.",
-  }
+  },
 ];
 
 const Certificates = () => {
   const swiperRef = useRef<any>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState<Certificate | null>(null);
   const [imageError, setImageError] = useState<{ [key: number]: boolean }>({});
 
-  const closeModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if ((e.target as HTMLElement).id === "modal-background") setSelected(null);
-  };
-
-  const handleImageError = (index: number) => {
+  const handleImageError = (index: number) =>
     setImageError((prev) => ({ ...prev, [index]: true }));
-  };
 
   return (
     <section
       id="certificates"
-      className="min-h-screen flex flex-col items-center justify-center px-4 md:px-12 py-16 bg-gray-900 text-white"
+      className="min-h-screen flex flex-col items-center justify-center px-4 md:px-12 py-16 text-white"
     >
-      {/* Animated Heading */}
       <motion.h2
-        className="text-4xl font-bold mb-12 text-blue-500"
+        className="text-4xl font-bold mb-2 text-blue-400"
         initial={{ opacity: 0, x: -60 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
         Certificates
       </motion.h2>
+      <p className="text-gray-500 text-sm mb-12 tracking-wide">
+        {currentIndex + 1} / {certificates.length}
+      </p>
 
-      <div className="w-full max-w-6xl relative">
+      <div className="w-full max-w-2xl relative">
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          effect="coverflow"
+          onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+          effect="cards"
           grabCursor
           centeredSlides
           loop
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          coverflowEffect={{
-            rotate: 20,
-            stretch: 0,
-            depth: 200,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          pagination={{ clickable: true, el: ".certs-pagination" }}
-          modules={[EffectCoverflow, Pagination]}
-          className="w-full pb-20"
+          modules={[EffectCards]}
+          className="w-full pb-4"
         >
           {certificates.map((cert, index) => (
             <SwiperSlide key={index}>
               <motion.div
-                className="bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition flex flex-col items-center text-center"
-                initial={{ opacity: 0, y: 60 }}
+                className="bg-gray-900 border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl"
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
               >
-                <div className="w-full h-40 rounded-lg mb-4 flex items-center justify-center bg-gray-700 relative overflow-hidden">
+                {/* Image */}
+                <div className="w-full h-52 bg-gray-800 flex items-center justify-center relative overflow-hidden">
                   {!imageError[index] ? (
                     <img
                       src={cert.image}
                       alt={cert.title}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-cover"
                       onError={() => handleImageError(index)}
                     />
                   ) : (
-                    <div className="flex items-center justify-center w-full h-full text-gray-400 italic animate-pulse">
-                      Image on process...
-                    </div>
+                    <p className="text-gray-500 italic text-sm animate-pulse">
+                      Image loading…
+                    </p>
                   )}
                 </div>
 
-                {/* Title */}
-                <motion.h3
-                  initial={{ opacity: 0, x: -60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-xl font-semibold mb-2"
-                >
-                  {cert.title}
-                </motion.h3>
-
-                {/* Issuer */}
-                {cert.issuer && (
-                  <motion.p
-                    initial={{ opacity: 0, x: -60 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.3 }}
-                    className="text-gray-300 text-sm mb-4"
+                {/* Body */}
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-1">
+                    <h3 className="text-lg font-bold leading-tight">
+                      {cert.title}
+                    </h3>
+                  </div>
+                  {cert.issuer && (
+                    <p className="text-blue-400 text-xs font-medium mb-3 uppercase tracking-wide">
+                      {cert.issuer}
+                    </p>
+                  )}
+                  <p className="text-gray-400 text-sm leading-relaxed mb-5 line-clamp-3">
+                    {cert.description}
+                  </p>
+                  <button
+                    onClick={() => setSelected(cert)}
+                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition font-medium"
                   >
-                    {cert.issuer}
-                  </motion.p>
-                )}
-
-                {/* Details Button */}
-                <button
-                  onClick={() => setSelected(cert)}
-                  className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition"
-                >
-                  Details
-                </button>
+                    <ExternalLink className="w-4 h-4" /> View Details
+                  </button>
+                </div>
               </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>
 
-        {/* Controls */}
-        <div className="flex flex-col items-center mt-6">
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={() => swiperRef.current?.slidePrev()}
-              className="text-2xl px-4 py-1 text-blue-500 hover:text-blue-400 transition"
-            >
-              ◀
-            </button>
-            <div className="certs-pagination flex items-center gap-2" />
-            <button
-              onClick={() => swiperRef.current?.slideNext()}
-              className="text-2xl px-4 py-1 text-blue-500 hover:text-blue-400 transition"
-            >
-              ▶
-            </button>
-          </div>
-        </div>
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-6 mt-8">
+          <button
+            onClick={() => swiperRef.current?.slidePrev()}
+            className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-400 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-        <style>
-          {`
-            .certs-pagination .swiper-pagination-bullet {
-              width: 12px;
-              height: 12px;
-            }
-            @media (max-width: 640px) {
-              .certs-pagination { margin: 0 6px; }
-            }
-          `}
-        </style>
+          <div className="flex gap-2">
+            {certificates.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => swiperRef.current?.slideToLoop(i)}
+                className={`rounded-full transition-all duration-300 ${i === currentIndex
+                  ? "w-6 h-2 bg-blue-500"
+                  : "w-2 h-2 bg-gray-600 hover:bg-gray-400"
+                  }`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={() => swiperRef.current?.slideNext()}
+            className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-400 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Modal */}
       {selected && (
         <div
-          id="modal-background"
-          onClick={closeModal}
-          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4"
+          className="fixed inset-0 flex items-center justify-center bg-black/75 backdrop-blur-sm z-50 px-4"
+          onClick={(e) => e.target === e.currentTarget && setSelected(null)}
         >
-          <div className="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md relative">
-            <button
-              onClick={() => setSelected(null)}
-              className="absolute top-2 right-2 text-gray-400 hover:text-white text-lg"
-            >
-              ✖
-            </button>
-            <div className="w-full h-48 rounded-lg mb-4 flex items-center justify-center bg-gray-700 overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gray-900 border border-gray-700/50 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl"
+          >
+            <div className="w-full h-48 bg-gray-800 overflow-hidden">
               {!imageError[certificates.indexOf(selected)] ? (
                 <img
                   src={selected.image}
                   alt={selected.title}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover"
                   onError={() =>
                     handleImageError(certificates.indexOf(selected))
                   }
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full text-gray-400 italic animate-pulse">
-                  Certificate on process...
+                <div className="flex items-center justify-center h-full text-gray-500 italic text-sm">
+                  Certificate on process…
                 </div>
               )}
             </div>
-
-            <h3 className="text-2xl font-semibold mb-2">{selected.title}</h3>
-            {selected.issuer && (
-              <p className="text-gray-400 text-sm mb-3">
-                Issued by {selected.issuer}
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-1">{selected.title}</h3>
+              {selected.issuer && (
+                <p className="text-blue-400 text-xs uppercase tracking-wide mb-3">
+                  Issued by {selected.issuer}
+                </p>
+              )}
+              <p className="text-gray-300 text-sm leading-relaxed mb-5">
+                {selected.description}
               </p>
-            )}
-            <p className="text-gray-300 mb-4">{selected.description}</p>
-            <a
-              href={selected.link ?? "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white inline-block"
-            >
-              View Certificate
-            </a>
-          </div>
+              <div className="flex items-center justify-between">
+                {selected.hasLink ? (
+                  <a
+                    href={selected.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium transition"
+                  >
+                    <ExternalLink className="w-4 h-4" /> View Certificate
+                  </a>
+                ) : (
+                  <p className="text-gray-600 text-xs italic">
+                    Verification link coming soon
+                  </p>
+                )}
+                <button
+                  onClick={() => setSelected(null)}
+                  className="text-gray-500 hover:text-white text-sm transition"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )}
     </section>

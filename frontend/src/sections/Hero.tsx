@@ -49,19 +49,17 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-2xl px-4 space-y-6">
+      <div className="relative z-10 w-full max-w-4xl px-6 md:px-12 space-y-6">
         <h1
-          className={`text-6xl md:text-7xl font-extrabold mb-4 text-white transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
-          }`}
+          className={`text-6xl md:text-7xl font-extrabold mb-4 text-white transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+            }`}
         >
           Hi, I’m <span className="text-blue-500">Tensae</span>
         </h1>
 
         <p
-          className={`text-2xl md:text-3xl font-bold text-gray-200 transition-all duration-1000 delay-150 ${
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
-          }`}
+          className={`text-2xl md:text-3xl font-bold text-gray-200 transition-all duration-1000 delay-150 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+            }`}
         >
           <span
             key={currentSkill}
@@ -72,9 +70,8 @@ const Hero = () => {
         </p>
 
         <div
-          className={`flex justify-center gap-4 mt-4 transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`flex justify-center gap-4 mt-4 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           <a
             href="#projects"
