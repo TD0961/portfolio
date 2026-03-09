@@ -106,33 +106,34 @@ const Skills = () => {
         {/* Tree vertical line */}
         <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full" />
 
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: i * 0.2 }}
-          className="flex flex-col items-center md:items-start bg-white/5 p-8 rounded-3xl border border-white/10 h-full w-full"
-        >
-          {/* Category Title */}
-          <h3 className={`text-2xl font-semibold mb-6 ${cat.color}`}>{cat.title}</h3>
+        {categories.map((cat, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: i * 0.2 }}
+            className="flex flex-col items-center md:items-start bg-white/5 p-8 rounded-3xl border border-white/10 h-full w-full"
+          >
+            {/* Category Title */}
+            <h3 className={`text-2xl font-semibold mb-6 ${cat.color}`}>{cat.title}</h3>
 
-          {/* Skills */}
-          <div className="grid grid-cols-2 gap-6 w-full">
-            {cat.skills.map((skill, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 rounded-xl shadow-lg
+            {/* Skills */}
+            <div className="grid grid-cols-2 gap-6 w-full">
+              {cat.skills.map((skill, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.15 }}
+                  className="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 rounded-xl shadow-lg
                              hover:scale-105 transition-transform duration-300 min-h-[110px] w-full h-full"
-              >
-                {skill.icon}
-                <span className="text-sm font-medium">{skill.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+                >
+                  {skill.icon}
+                  <span className="text-sm font-medium text-center">{skill.name}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>
