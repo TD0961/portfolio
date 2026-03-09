@@ -11,7 +11,11 @@ const links = [
   { id: "contact", label: "Contact", icon: <Mail size={18} /> },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+  onProfileClick?: () => void;
+}
+
+const Sidebar = ({ onProfileClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
@@ -40,16 +44,18 @@ const Sidebar = () => {
     >
       {/* Top Section */}
       <div>
-        {/* Profile */}
         <div className="flex flex-col items-center pt-8 pb-6 px-4 border-b border-white/5">
-          <div className="relative mb-4">
-            <div className="absolute inset-0 rounded-full bg-blue-500 blur-md opacity-40" />
+          <button
+            onClick={onProfileClick}
+            className="relative mb-4 group cursor-pointer focus:outline-none"
+          >
+            <div className="absolute inset-0 rounded-full bg-blue-500 blur-md opacity-40 group-hover:opacity-70 transition-opacity" />
             <img
               src="/photo/black-shemiz.jpg"
               alt="Profile"
-              className="relative w-20 h-20 rounded-full border-2 border-blue-500 object-cover"
+              className="relative w-20 h-20 rounded-full border-2 border-blue-500 object-cover transform group-hover:scale-105 transition-transform duration-300"
             />
-          </div>
+          </button>
           <h1 className="text-lg font-bold tracking-wide">Tensae Deme</h1>
           <p className="text-xs text-gray-400 mt-1 text-center leading-relaxed">
             Full-stack dev & DevOps Enthusiast

@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import MobileNav from "./components/MobileNav";
+import ImageModal from "./components/ImageModal";
 import ParticleBackground from "./components/ParticleBackground";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -10,16 +12,20 @@ import Certificates from "./sections/Certificates";
 import Contact from "./sections/Contact";
 
 function App() {
-  return (
-    <div className="relative min-h-screen text-white flex">
-      {/* Root background color at lowest z-index */}
-      <div className="fixed inset-0 bg-gray-950 -z-20" />
+  const [modalImage, setModalImage] = useState<string | null>(null);
 
+  return (
+    <div className="relative min-h-screen bg-gray-950 text-gray-100 selection:bg-blue-500/30 flex">
       {/* Global particle canvas — fixed behind everything */}
       <ParticleBackground />
 
-      {/* Sidebar (desktop) */}
-      <Sidebar />
+      <Sidebar onProfileClick={() => setModalImage("/photo/black-shemiz.jpg")} />
+
+      <ImageModal
+        isOpen={!!modalImage}
+        onClose={() => setModalImage(null)}
+        imageSrc={modalImage || ""}
+      />
 
       {/* Main content */}
       <main className="relative z-10 flex-1 lg:ml-64 w-full">
