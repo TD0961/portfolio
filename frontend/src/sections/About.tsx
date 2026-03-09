@@ -72,7 +72,7 @@ const About = () => {
               Explore My Skills
             </a>
             <a
-              href="/Resume/Tensae_Resumes.pdf"
+              href="/Resume/Updated_Tensaes_CV.pdf"
               download
               className="inline-block px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg shadow-md
                        hover:bg-blue-600 hover:text-white transform hover:-translate-y-1 hover:scale-105 transition-all duration-300"
