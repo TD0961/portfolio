@@ -102,7 +102,7 @@ const Skills = () => {
         MY SKILLS
       </motion.h2>
 
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-16 relative">
+      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-16 relative">
         {/* Tree vertical line */}
         <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full" />
 
@@ -112,10 +112,10 @@ const Skills = () => {
             initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
-            className="flex flex-col items-center md:items-start bg-white/5 p-8 rounded-3xl border border-white/10 h-full w-full"
+            className="flex flex-col items-center h-full w-full"
           >
             {/* Category Title */}
-            <h3 className={`text-2xl font-semibold mb-6 ${cat.color}`}>{cat.title}</h3>
+            <h3 className={`text-2xl font-semibold mb-6 text-center ${cat.color}`}>{cat.title}</h3>
 
             {/* Skills */}
             <div className="grid grid-cols-2 gap-6 w-full">

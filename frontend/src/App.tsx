@@ -28,7 +28,7 @@ function App() {
       />
 
       {/* Main content */}
-      <main className="relative z-10 flex-1 lg:ml-64 w-full">
+      <main className="relative z-10 lg:ml-64">
         <Hero />
         <About />
         <Experience />
