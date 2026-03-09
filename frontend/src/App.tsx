@@ -15,7 +15,7 @@ function App() {
   const [modalImage, setModalImage] = useState<string | null>(null);
 
   return (
-    <div className="relative min-h-screen bg-gray-950 text-gray-100 selection:bg-blue-500/30 flex">
+    <div className="relative min-h-screen bg-gray-950 text-gray-100 selection:bg-blue-500/30">
       {/* Global particle canvas — fixed behind everything */}
       <ParticleBackground />
 

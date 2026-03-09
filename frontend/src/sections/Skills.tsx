@@ -125,8 +125,8 @@ const Skills = () => {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: idx * 0.15 }}
-                  className="flex flex-col items-center gap-2 p-4 bg-gray-800 rounded-xl shadow-lg
-                             hover:scale-105 transition-transform duration-300"
+                  className="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 rounded-xl shadow-lg
+                             hover:scale-105 transition-transform duration-300 min-h-[110px] w-full h-full"
                 >
                   {skill.icon}
                   <span className="text-sm font-medium">{skill.name}</span>

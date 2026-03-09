@@ -19,18 +19,28 @@ const Sidebar = ({ onProfileClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
     links.forEach(({ id }) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { threshold: 0.4 }
-      );
-      observer.observe(el);
-      observers.push(observer);
+      if (el) observer.observe(el);
     });
-    return () => observers.forEach((o) => o.disconnect());
+
+    return () => observer.disconnect();
   }, []);
 
   return (

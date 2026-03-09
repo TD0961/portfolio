@@ -15,18 +15,28 @@ const MobileNav = () => {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
+    const observerOptions = {
+      root: null,
+      rootMargin: '-25% 0px -65% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
     links.forEach(({ id }) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { threshold: 0.4 }
-      );
-      observer.observe(el);
-      observers.push(observer);
+      if (el) observer.observe(el);
     });
-    return () => observers.forEach((o) => o.disconnect());
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -38,7 +48,7 @@ const MobileNav = () => {
         WebkitBackdropFilter: 'blur(10px)'
       }}
     >
-      <div className="flex justify-around items-center py-2 px-1">
+      <div className="flex justify-between items-center py-2 px-1.5 max-w-md mx-auto">
         {links.map((link) => {
           const isActive = activeSection === link.id;
           return (
